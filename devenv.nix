@@ -1,14 +1,17 @@
 {
   pkgs,
-  lib,
-  config,
-  inputs,
+  # lib,
+  # config,
+  # inputs,
   ...
 }:
 
 {
   # https://devenv.sh/packages/
-  packages = [ pkgs.git ];
+  packages = [
+    pkgs.git
+    pkgs.git
+  ];
 
   languages.python = {
     enable = true;
@@ -18,7 +21,7 @@
     };
     lsp = {
       enable = true;
-      package = pkgs.ruff;
+      package = pkgs.basedpyright;
     };
   };
 
