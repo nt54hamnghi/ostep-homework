@@ -13,15 +13,26 @@
     pkgs.git
   ];
 
-  languages.python = {
-    enable = true;
-    uv = {
+  languages = {
+    python = {
       enable = true;
-      sync.enable = true;
+      uv = {
+        enable = true;
+        sync.enable = true;
+      };
+      lsp = {
+        enable = true;
+        package = pkgs.basedpyright;
+      };
     };
-    lsp = {
+
+    c = {
       enable = true;
-      package = pkgs.basedpyright;
+      debugger = pkgs.gdb;
+      lsp = {
+        enable = true;
+        package = pkgs.clang-tools;
+      };
     };
   };
 
