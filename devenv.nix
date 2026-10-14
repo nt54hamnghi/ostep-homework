@@ -10,7 +10,7 @@
   # https://devenv.sh/packages/
   packages = [
     pkgs.git
-    pkgs.git
+    pkgs.clang-tools
   ];
 
   languages = {
