@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 
-from __future__ import print_function
+import random
 import sys
 from optparse import OptionParser
-import random
+
 
 # to make Python2 and Python3 act the same -- how dumb
 def random_seed(seed):
@@ -11,7 +11,6 @@ def random_seed(seed):
         random.seed(seed, version=1)
     except:
         random.seed(seed)
-    return
 
 parser = OptionParser()
 parser.add_option("-s", "--seed", default=0, help="the random seed", action="store", type="int", dest="seed")
@@ -33,7 +32,7 @@ if options.jlist == '':
     print('ARG seed', options.seed)
 else:
     print('ARG jlist', options.jlist)
-print('')
+print()
 
 print('Here is the job list, with the run time of each job: ')
 
@@ -41,7 +40,7 @@ import operator
 
 joblist = []
 if options.jlist == '':
-    for jobnum in range(0,options.jobs):
+    for jobnum in range(options.jobs):
         runtime = int(options.maxlen * random.random()) + 1
         joblist.append([jobnum, runtime])
         print('  Job', jobnum, '( length = ' + str(runtime) + ' )')
@@ -59,7 +58,7 @@ if options.solve == True:
     if options.policy == 'SJF':
         joblist = sorted(joblist, key=operator.itemgetter(1))
         options.policy = 'FIFO'
-    
+
     if options.policy == 'FIFO':
         thetime = 0
         print('Execution trace:')
@@ -76,7 +75,7 @@ if options.solve == True:
         for tmp in joblist:
             jobnum  = tmp[0]
             runtime = tmp[1]
-            
+
             response   = t
             turnaround = t + runtime
             wait       = t
@@ -87,7 +86,7 @@ if options.solve == True:
             t += runtime
             count = count + 1
         print('\n  Average -- Response: %3.2f  Turnaround %3.2f  Wait %3.2f\n' % (responseSum/count, turnaroundSum/count, waitSum/count))
-                     
+
     if options.policy == 'RR':
         print('Execution trace:')
         turnaround = {}
@@ -96,7 +95,7 @@ if options.solve == True:
         wait = {}
         quantum  = float(options.quantum)
         jobcount = len(joblist)
-        for i in range(0,jobcount):
+        for i in range(jobcount):
             lastran[i] = 0.0
             wait[i] = 0.0
             turnaround[i] = 0.0
@@ -132,16 +131,16 @@ if options.solve == True:
         turnaroundSum = 0.0
         waitSum       = 0.0
         responseSum   = 0.0
-        for i in range(0,len(joblist)):
+        for i in range(len(joblist)):
             turnaroundSum += turnaround[i]
             responseSum += response[i]
             waitSum += wait[i]
             print('  Job %3d -- Response: %3.2f  Turnaround %3.2f  Wait %3.2f' % (i, response[i], turnaround[i], wait[i]))
         count = len(joblist)
-        
+
         print('\n  Average -- Response: %3.2f  Turnaround %3.2f  Wait %3.2f\n' % (responseSum/count, turnaroundSum/count, waitSum/count))
 
-    if options.policy != 'FIFO' and options.policy != 'SJF' and options.policy != 'RR': 
+    if options.policy != 'FIFO' and options.policy != 'SJF' and options.policy != 'RR':
         print('Error: Policy', options.policy, 'is not available.')
         sys.exit(0)
 else:
@@ -150,4 +149,4 @@ else:
     print('but with -c, which will thus provide you with the answers. You can use')
     print('-s <somenumber> or your own job list (-l 10,15,20 for example)')
     print('to generate different problems for yourself.')
-    print('')
+    print()

@@ -17,7 +17,7 @@
  * By measuring the cost of communicating like this repeatedly,
  * lmbench can make a good estimate of the cost of a context
  * switch. You can try to re-create something similar here,
- * using pipes, or perhaps some
+ * using pipes.
  *
  * One difficulty in measuring context-switch cost arises in
  * systems with more than one CPU; you need to ensure that your
@@ -52,7 +52,7 @@ static long long elapsed_us(struct timeval end, struct timeval start) {
 }
 
 int main(void) {
-    // Pin this process (and the child, which inherits it) to CPU 0.
+    // Pin this process (and the children, which inherit it) to CPU 0.
     cpu_set_t set;    // CPU affinity(linking) mask
     CPU_ZERO(&set);   // empty cpu set
     CPU_SET(0, &set); // add cpu 0
