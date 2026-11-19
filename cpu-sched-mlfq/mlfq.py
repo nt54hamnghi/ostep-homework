@@ -1,9 +1,9 @@
 #! /usr/bin/env python
 
-from __future__ import print_function
+import random
 import sys
 from optparse import OptionParser
-import random
+
 
 # to make Python2 and Python3 act the same -- how dumb
 def random_seed(seed):
@@ -11,7 +11,6 @@ def random_seed(seed):
         random.seed(seed, version=1)
     except:
         random.seed(seed)
-    return
 
 # finds the highest nonempty queue
 # -1 if they are all empty
@@ -35,10 +34,10 @@ def Abort(str):
 #
 
 parser = OptionParser()
-parser.add_option('-s', '--seed', help='the random seed', 
+parser.add_option('-s', '--seed', help='the random seed',
                   default=0, action='store', type='int', dest='seed')
 parser.add_option('-n', '--numQueues',
-                  help='number of queues in MLFQ (if not using -Q)', 
+                  help='number of queues in MLFQ (if not using -Q)',
                   default=3, action='store', type='int', dest='numQueues')
 parser.add_option('-q', '--quantum', help='length of time slice (if not using -Q)',
                   default=10, action='store', type='int', dest='quantum')
@@ -47,12 +46,12 @@ parser.add_option('-a', '--allotment', help='length of allotment (if not using -
 parser.add_option('-Q', '--quantumList',
                   help='length of time slice per queue level, specified as ' + \
                   'x,y,z,... where x is the quantum length for the highest ' + \
-                  'priority queue, y the next highest, and so forth', 
+                  'priority queue, y the next highest, and so forth',
                   default='', action='store', type='string', dest='quantumList')
 parser.add_option('-A', '--allotmentList',
                   help='length of time allotment per queue level, specified as ' + \
                   'x,y,z,... where x is the # of time slices for the highest ' + \
-                  'priority queue, y the next highest, and so forth', 
+                  'priority queue, y the next highest, and so forth',
                   default='', action='store', type='string', dest='allotmentList')
 parser.add_option('-j', '--numJobs', default=3, help='number of jobs in the system',
                   action='store', type='int', dest='numJobs')
@@ -163,7 +162,7 @@ else:
         startTime = 0
         runTime   = int(random.random() * (options.maxlen - 1) + 1)
         ioFreq    = int(random.random() * (options.maxio - 1) + 1)
-        
+
         job[jobCnt] = {'currPri':hiQueue, 'ticksLeft':quantum[hiQueue],
                        'allotLeft':allotment[hiQueue], 'startTime':startTime,
                        'runTime':runTime, 'timeLeft':runTime, 'ioFreq':ioFreq, 'doingIO':False,
@@ -197,13 +196,13 @@ print('              (the I/O takes ioTime units to complete)\n')
 print('Job List:')
 for i in range(numJobs):
     print('  Job %2d: startTime %3d - runTime %3d - ioFreq %3d' % (i, job[i]['startTime'], job[i]['runTime'], job[i]['ioFreq']))
-print('')
+print()
 
 if options.solve == False:
     print('Compute the execution trace for the given workloads.')
     print('If you would like, also compute the response and turnaround')
     print('times for each of the jobs.')
-    print('')
+    print()
     print('Use the -c flag to get the exact results when you are finished.\n')
     exit(0)
 
@@ -268,7 +267,7 @@ while finishedJobs < totalJobs:
         print('[ time %d ] IDLE' % (currTime))
         currTime += 1
         continue
-            
+
     # there was at least one runnable job, and hence ...
     currJob = queue[currQueue][0]
     if job[currJob]['currPri'] != currQueue:
@@ -326,7 +325,7 @@ while finishedJobs < totalJobs:
             ioDone[futureTime] = []
         print('IO DONE')
         ioDone[futureTime].append((currJob, 'IO_DONE'))
-        
+
     # CHECK FOR QUANTUM ENDING AT THIS LEVEL (BUT REMEMBER, THERE STILL MAY BE ALLOTMENT LEFT)
     if ticksLeft == 0:
         if issuedIO == False:
@@ -356,11 +355,11 @@ while finishedJobs < totalJobs:
             if issuedIO == False:
                 queue[currQueue].append(currJob)
 
-        
+
 
 
 # print out statistics
-print('')
+print()
 print('Final statistics:')
 responseSum   = 0
 turnaroundSum = 0
