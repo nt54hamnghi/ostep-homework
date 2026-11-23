@@ -8,9 +8,10 @@
 
 {
   # https://devenv.sh/packages/
-  packages = [
-    pkgs.git
-    pkgs.clang-tools
+  packages = with pkgs; [
+    git
+    clang-tools
+    valgrind
   ];
 
   languages = {
